@@ -11,8 +11,11 @@ class MorphologicalAspect:
 
 
 class RootAspect(MorphologicalAspect):
-    def __init__(self, short_doc):
+    long_doc: str
+
+    def __init__(self, short_doc, long_doc=""):
         super().__init__("Root", short_doc)
+        self.long_doc = long_doc
 
 
 class POSAspect(MorphologicalAspect):

@@ -7,13 +7,26 @@ class NoVoiceException(Exception):
     pass
 
 
+class Phoneme:
+    def __init__(self, spelling):
+        self.spelling = spelling
+
+    def __str__(self):
+        return self.spelling
+
+
 class PhonemeCluster:
-    vec: typing.List[str]
+    vec: typing.List[Phoneme]
 
     @staticmethod
     def from_sounds(sounds):
         a = PhonemeCluster()
-        a.vec = sounds
+        a.vec = []
+        for i in sounds:
+            if type(i) is PhonemeCluster:
+                a.vec += i.vec
+            elif type(i) is Vowel or Consonant:
+                a.vec.append(i)
         return a
 
     def __add__(self, other):
@@ -21,20 +34,12 @@ class PhonemeCluster:
             self.vec.append(other)
             return self
         elif type(other) is PhonemeCluster:
-            return other.vec.append(self)
+            return PhonemeCluster.from_sounds(self.vec + other.vec)
         else:
             raise TypeError
 
     def __str__(self):
         return "".join(map(str, self.vec))
-
-
-class Phoneme:
-    def __init__(self, spelling):
-        self.spelling = spelling
-
-    def __str__(self):
-        return self.spelling
 
 
 class Consonant(Phoneme):
@@ -75,13 +80,14 @@ class Consonant(Phoneme):
         return random.choice(self.rel_near)
 
     def __repr__(self):
-        return f"Consonant <'{self.spelling}'>"
+        return f"<Consonant ['{self.spelling}']>"
 
     def __add__(self, other) -> PhonemeCluster:
         if type(other) is Consonant or type(other) is Vowel:
             return PhonemeCluster.from_sounds(sounds=[self, other])
         elif type(other) is PhonemeCluster:
-            return other.vec.append(self)
+            other.vec.append(self)
+            return other
         else:
             raise TypeError
 
@@ -91,13 +97,14 @@ class Vowel(Phoneme):
     default_longness: int = 1
     instances = []
 
-    def __init__(self, spelling, default_longness=1):
+    def __init__(self, spelling, default_longness=1, cluster=False):
         super().__init__(spelling)
         self.default_longness = default_longness
+        self.cluster = cluster
         self.__class__.instances.append(weakref.proxy(self))
 
     def __repr__(self):
-        return f"Vowel <'{self.spelling*self.default_longness}'>"
+        return f"<Vowel{' cluster' if self.cluster else ''} ['{self.spelling*self.default_longness}']>"
 
     def __str__(self):
         return self.spelling*self.default_longness
@@ -106,7 +113,8 @@ class Vowel(Phoneme):
         if type(other) is Consonant or type(other) is Vowel:
             return PhonemeCluster.from_sounds(sounds=[self, other])
         elif type(other) is PhonemeCluster:
-            return other.vec.append(self)
+            other.vec.append(self)
+            return other
         else:
             raise TypeError
 
