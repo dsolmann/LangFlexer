@@ -41,7 +41,7 @@ aa = a.derivate_wl(2)
 # =========== Phonotactics ========== #
 
 typical_syllable = SyllableStructure(
-    [SylPart(Consonant.instances, optional=True)],
+    [SylPart([p, b, t, d, k, g], optional=True)],
     [SylPart(Vowel.instances)],
     [SylPart([n, r], optional=True)]
 )

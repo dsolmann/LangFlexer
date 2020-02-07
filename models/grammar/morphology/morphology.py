@@ -33,7 +33,7 @@ class Word:
         else:
             return False
 
-    def syllabic_separator(self) -> typing.List[Syllable]:
+    def syllabic_separator(self, phonotactics=None) -> typing.List[Syllable]:
         phonemes = self.phonemer()
         # print(phonemes)
         vowels = []

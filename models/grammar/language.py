@@ -1,3 +1,4 @@
+import sys
 import typing
 
 from models.phonetics.phonotactics import SyllableStructure
@@ -46,7 +47,11 @@ class Language:
             # print(i)
             # print(i.syllabic_separator())
             for j in i.syllabic_separator():
-                j.check(self.phonotactics_binding)
+                try:
+                    j.check(self.phonotactics_binding)
+                except Exception as e:
+                    print(f"ERR: {str(e).replace('.', '')} in word {i}")
+                    sys.exit(1)
 
     def print_info(self):
         print(self.name)
