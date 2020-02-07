@@ -46,7 +46,7 @@ class Language:
             i.compile_morphology()
             # print(i)
             # print(i.syllabic_separator())
-            for j in i.syllabic_separator():
+            for j in i.syllabic_separator(self.phonotactics_binding):
                 try:
                     j.check(self.phonotactics_binding)
                 except Exception as e:

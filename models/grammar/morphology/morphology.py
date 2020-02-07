@@ -2,7 +2,7 @@ import typing
 
 from models.grammar.syntax import Sentence
 from models.phonetics.phonemes import PhonemeCluster, Phoneme, Vowel
-from models.phonetics.phonotactics import Syllable
+from models.phonetics.phonotactics import Syllable, SyllableStructure
 
 
 class NoRootException(Exception):
@@ -14,8 +14,6 @@ class Word:
     _str = ""
 
     def __init__(self, *args):
-        from models.grammar.morphology.aspects import RootAspect
-
         args: typing.List[Morpheme] = list(args)
         self.morphemes = list(args)
         if not self.compile_morphology(False):
@@ -33,24 +31,22 @@ class Word:
         else:
             return False
 
-    def syllabic_separator(self, phonotactics=None) -> typing.List[Syllable]:
+    def syllabic_separator(self, phonotactics: SyllableStructure = None) -> typing.List[Syllable]:
         phonemes = self.phonemer()
         # print(phonemes)
         vowels = []
         for n, i in enumerate(phonemes):
             if isinstance(i, Vowel):
                 vowels.append(n)
+        # vowels.reverse()
         # print(vowels)
         syllables = []
         for i in vowels:
-            syllable = [phonemes[i]]
-            # print(syllable)
-            for j in range(i-1, -1, -1):
-                # print("HOP", phonemes[j])
-                if isinstance(phonemes[j], Vowel):
-                    break
-                else:
-                    syllable.insert(0, phonemes[j])
+            if i > 0:
+                syllable = phonemes[i - 1:i + 1]
+            else:
+                syllable = [phonemes[i]]
+            # print("Syl:", syllable)
             syllables.append(Syllable(PhonemeCluster.from_sounds(syllable)))
 
         return syllables

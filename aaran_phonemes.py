@@ -41,7 +41,7 @@ aa = a.derivate_wl(2)
 # =========== Phonotactics ========== #
 
 typical_syllable = SyllableStructure(
-    [SylPart([p, b, t, d, k, g], optional=True)],
+    [SylPart([p, b, t, d, k, g, r, n], optional=True)],
     [SylPart(Vowel.instances)],
     [SylPart([n, r], optional=True)]
 )
@@ -78,10 +78,10 @@ aaran.add_words(water, place, go, river, language)
 # 4. Tonality
 
 if __name__ == '__main__':
-    print(str(language))
-    print(str(language.trace()))
-    _dbg_a = language.syllabic_separator()
-    print(_dbg_a)
+    # print(str(language))
+    # print(str(language.trace()))
+    # _dbg_a = language.syllabic_separator(aaran.phonotactics_binding)
+    # print(_dbg_a)
 
     # water_word = water.as_word()
     # print(str(water_word))
@@ -94,3 +94,9 @@ if __name__ == '__main__':
 
     aaran.compile()
     aaran.print_info()
+    print("--------")
+    for i in aaran.words:
+        print("Word:", str(i))
+        print("Meaning:", i.trace())
+        print("Syllables:", '-'.join(map(str, i.syllabic_separator(aaran.phonotactics_binding))))
+        print("--------")
