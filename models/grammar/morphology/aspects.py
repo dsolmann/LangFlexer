@@ -17,6 +17,9 @@ class RootAspect(MorphologicalAspect):
         super().__init__("Root", short_doc)
         self.long_doc = long_doc
 
+    def __str__(self):
+        return str(self.short_doc)
+
 
 class POSAspect(MorphologicalAspect):
     pos: PartOfSpeech
@@ -24,3 +27,6 @@ class POSAspect(MorphologicalAspect):
     def __init__(self, pos):
         self.pos = pos
         super().__init__("POSer", self.pos.name)
+
+    def __str__(self):
+        return str(self.short_doc)

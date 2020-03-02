@@ -1,10 +1,11 @@
 import sys
 import typing
 
+from jinja2 import Environment, PackageLoader, select_autoescape
+
 from models.phonetics.phonotactics import SyllableStructure
 from models.phonetics.phonemes import Vowel, Consonant
 from models.grammar.morphology.morphology import Word, Morpheme
-
 
 class Language:
     name: str
@@ -25,6 +26,13 @@ class Language:
     def add_morphemes(self, *morph: Morpheme):
         self.morphemes += morph
 
+    def render_to_html(self):
+        env = Environment(
+            loader=PackageLoader(__name__, 'templates'),
+            autoescape=select_autoescape(['html', 'xml'])
+        )
+        env.get_template()
+
     def add_words(self, *words):
         words = list(words)
         for ind, el in enumerate(words):
@@ -44,8 +52,9 @@ class Language:
     def compile(self, raise_exception=False):
         for i in self.words:
             i.compile_morphology()
-            # print(i)
-            # print(i.syllabic_separator())
+            for z in i.morphemes:
+                if z not in self.morphemes:
+                    self.morphemes.append(z)
             for j in i.syllabic_separator(self.phonotactics_binding):
                 try:
                     j.check(self.phonotactics_binding)

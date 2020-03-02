@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ name }} Conlang</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                {{ name }} tech description
+            </h1>
+        </div>
+        <hr>
+        <div class="container">
+            <h2 class="title">
+                Quick facts:
+            </h2>
+            <p>Total words: {{ len(words) }}</p>
+            <p>Total morphemes: {{ len(morphemes) }}</p>
+            <p>Total sounds: {{ p_count }}</p>
+            <br>
+            <hr>
+{#            <h2 class="title">#}
+{#                Phonology#}
+{#            </h2>#}
+{#            {% for phoneme in phonemes %}#}
+{#                #}
+{#            {% endfor %}#}
+{#            #}
+        </div>
+    <!--<div class="container">
+        <table class="table is-hoverable is-fullwidth is-center is-mono">
+             <thead>
+                <tr>
+                    <th>Position</th>
+                    <th>Team</th>
+                    <th>Servers Captured</th>
+                    <th>Total Score</th>
+                </tr>
+             </thead>
+             <tbody>
+                {#% for ind, val in result %#}
+                    <tr class="{/{ "is-selected" if ind == 0 else "" }}">
+                    <th>
+                        {/{ ind }}
+                    </th>
+                    <td>
+                        {/{ val.name }}
+                    </td>
+                    <td>
+                        {/{ val.server_hijacked }}
+                    </td>
+                    <td>
+                        {/{ val.score }}
+                    </td>
+                    </tr>
+                {/% endfor %}
+             </tbody>
+        </table>
+    </div>
+    -->
+</section>
+</body>
+</html>

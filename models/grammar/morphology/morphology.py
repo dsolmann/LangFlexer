@@ -70,7 +70,8 @@ class Word:
         return z
 
     def __str__(self):
-        return self.trace_phonology() if not self.overridden_spelling else "".join(map(str, self.overridden_spelling))
+        return self.trace_phonology() if not self.overridden_spelling \
+            else "".join(map(str, self.overridden_spelling.vec))
 
     def __add__(self, other):
         if type(other) is Word:
