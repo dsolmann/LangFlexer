@@ -75,10 +75,9 @@ class Syllable:
                     self.nucleus = PhonemeCluster.from_sounds([i])
                     nucleus_index = j
                     break
-
+        print(self.phoneme_cluster.vec)
         onset = self.phoneme_cluster.vec[:nucleus_index]
         coda = self.phoneme_cluster.vec[nucleus_index + 1:]
-
         if coda:
             for index, binding in enumerate(phonotactics.coda):
                 if coda[index] not in binding.bindings:

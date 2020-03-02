@@ -41,7 +41,7 @@ class Language:
     def set_vowels(self, *vows):
         self.vowels += vows
 
-    def compile(self):
+    def compile(self, raise_exception=False):
         for i in self.words:
             i.compile_morphology()
             # print(i)
@@ -50,6 +50,8 @@ class Language:
                 try:
                     j.check(self.phonotactics_binding)
                 except Exception as e:
+                    if raise_exception:
+                        raise Exception("Phonetics compilation error.")
                     print(f"ERR: {str(e).replace('.', '')} in word {i}")
                     sys.exit(1)
 
